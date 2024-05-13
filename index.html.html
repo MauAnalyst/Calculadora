@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRN04 - Calculadora</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap');
+
+    /* ----------- Geral */
+
+    .material-symbols-outlined {
+        font-variation-settings:
+        'FILL' 0,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24;
+    }
+
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Ubuntu Sans", sans-serif;
+    }
+    body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-image: linear-gradient(to left, #3671C3, #36C38E);
+    }
+    h1 {
+        color: #fff;
+        margin-top: -20px;
+        margin-bottom: 20px;
+    }
+
+    /* ----------- Calculator*/
+    .calculator {
+        height: 450px;
+        width: 330px;
+        background-color: transparent;
+        border-radius: 30px;
+        box-shadow: 0px 2px 25px rgb(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        justify-content:space-evenly;
+        align-items: center;
+    }
+    /*screen*/
+    .screen-calculator {
+        width: 90%;
+        height: 75px;
+        background-image: linear-gradient(to left, #B7D8EE, #B7EEE3);
+        border-radius: 20px;
+        border: 1px solid rgb(49, 100, 171, 0.5);
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        align-items:end;
+    }
+
+    .screen-digit {
+        font-size: 40px;
+        margin-right: 10px;
+        opacity: 50%;
+        max-width: 93%;
+        overflow-x: hidden;
+    }
+    .stores {
+        font-size: 15px;
+        margin-right: 10px;
+        opacity: 50%;
+        font-weight: bold;
+        max-width: 95%;
+        overflow-x: hidden;
+    }
+
+    /*buttons*/
+    button {
+        border: none;
+        padding: 10px;
+        width: 60px;
+        height: 60px;
+        font-size: 20px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-weight: bold;
+        color: #303030;
+    }
+    .item {
+        margin-left: 6px;
+        background-color: #B7D8EE;
+        transition: all 0.2s ease-in;
+    }
+    .item.action {
+        background-color: #F1C80A;
+        color: #303030;
+    }
+    .item:hover {
+        background-color: #9EB9CB;
+    }
+    .item.action:hover {
+        background-color: #D0AD0A;
+    }
+    .buttons-calculator button:nth-child(19){
+        grid-column: span 2;
+        width: 130px;
+        border-radius: 50px;
+        font-size: 30px;
+    }
+    .material-symbols-outlined {
+        font-size: 23px;
+        font-weight:bolder;
+    }
+    .buttons-calculator {   
+        width: 90%;
+        height: 325px;
+        background-color: transparent;
+        border-radius: 20px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+    }
+</style>
+
+<!-- Corpo HTML -->
+<body>
+    <h1>Calculator</h1>
+    <div class="calculator">
+        <div class="screen-calculator">
+            <p class="stores" id="stores-values">warehouse</p>
+            <p class="screen-digit" id="screen-digit">0</p>     
+        </div>
+        <div class="buttons-calculator">
+            <button class="item action" id="delete-all">CE</button>
+            <button class="item action" id="delete-p"><span class="material-symbols-outlined">arrow_back</span></button>
+            <button class="item action" id="button-porcent">%</button>
+            <button class="item action" id="button-division">/</button>
+            <button class="item number" id="button-7">7</button>
+            <button class="item number" id="button-8">8</button>
+            <button class="item number" id="button-9">9</button>
+            <button class="item action" id="button-multiply">*</button>
+            <button class="item number" id="button-4">4</button>
+            <button class="item number" id="button-5">5</button>
+            <button class="item number" id="button-6">6</button>
+            <button class="item action" id="button-less">-</button>
+            <button class="item number" id="button-1">1</button>
+            <button class="item number" id="button-2">2</button>
+            <button class="item number" id="button-3">3</button>
+            <button class="item action" id="button-more">+</button>
+            <button class="item action" id="button-point">.</button>
+            <button class="item number" id="button-0">0</button>
+            <button class="item action" id="button-resulte">=</button>
+        </div>
+    </div>
+
+
+    <!-- JavaScript -->
+    <script> 
+    //screen
+    var screendg = document.getElementById("screen-digit");
+    var screenStores = document.getElementById("stores-values");
+
+    //----- buttons numbers
+    let buttonZero = document.getElementById("button-0");
+    let buttonOne = document.getElementById("button-1");
+    let buttonTwo = document.getElementById("button-2");
+    let buttonThree = document.getElementById("button-3");
+    let buttonFour = document.getElementById("button-4");
+    let buttonFive = document.getElementById("button-5");
+    let buttonSix = document.getElementById("button-6");
+    let buttonSeven = document.getElementById("button-7");
+    let buttonEigth = document.getElementById("button-8");
+    let buttonNine = document.getElementById("button-9");
+    let buttonPoint = document.getElementById("button-point");
+
+
+    //Function when clicked on the number button
+    function clickNumber(buttonNumber){
+        let currentText = screendg.innerHTML;
+        let expressao = screenStores.innerHTML;
+
+        if (screenStores.innerHTML == 'warehouse'){
+            if (screendg.innerHTML == '0'){
+                screendg.style.opacity = '100%';
+                screendg.innerHTML = buttonNumber.innerHTML;
+            } else {
+                screendg.innerHTML += buttonNumber.innerHTML;
+            }
+        } else {
+            let resultado = eval(expressao);
+            let compscreen = calcular(currentText);
+
+            if(resultado == compscreen){
+                let checkScreem = currentText+expressao;
+                if(checkScreem[0] != '+' || checkScreem[0] != '-' || checkScreem[0] != '*' ){
+                    screenStores.innerHTML = 'warehouse';
+                    screendg.innerHTML = buttonNumber.innerHTML;
+                }else{
+                    screendg.innerHTML += buttonNumber.innerHTML;
+                }
+            }else {
+                screendg.innerHTML += buttonNumber.innerHTML;
+            }
+        }
+    }
+
+    //----------
+
+
+    buttonZero.onclick = function(){ //0
+        screendg.style.opacity = '100%';
+        if (screendg.innerHTML == '0' && screendg.innerHTML != '+'){
+            screendg.innerHTML = buttonZero.innerHTML;
+            
+        } else {
+            screendg.innerHTML += buttonZero.innerHTML;
+        }
+    };
+
+    buttonOne.onclick = function() { //1
+        let buttonNumber = buttonOne;
+        return clickNumber(buttonNumber);
+    };
+
+    buttonTwo.onclick = function() { //2
+        let buttonNumber = buttonTwo;
+        return clickNumber(buttonNumber);
+    };
+
+    buttonThree.onclick = function() { //3
+        let buttonNumber = buttonThree;
+        return clickNumber(buttonNumber);
+    };
+
+    buttonFour.onclick = function() { //4
+        let buttonNumber = buttonFour;
+        return clickNumber(buttonNumber);
+    };
+
+    buttonFive.onclick = function() { //5
+        let buttonNumber = buttonFive;
+        return clickNumber(buttonNumber);
+    };
+
+    buttonSix.onclick = function() { //6
+        let buttonNumber = buttonSix;
+        return clickNumber(buttonNumber);
+    };
+
+    buttonSeven.onclick = function() { //7
+        let buttonNumber = buttonSeven;
+        return clickNumber(buttonNumber);
+    };
+
+    buttonEigth.onclick = function() { //8
+        let buttonNumber = buttonEigth;
+        return clickNumber(buttonNumber);
+    };
+
+    buttonNine.onclick = function() { //9
+        let buttonNumber = buttonNine;
+        return clickNumber(buttonNumber);
+    };
+
+    buttonPoint.onclick = function(){ // point
+        screendg.style.opacity = '100%';
+
+        if (screendg.innerHTML == '0'){
+            screendg.innerHTML = "0"+buttonPoint.innerHTML;
+        } else {
+            screendg.innerHTML += buttonPoint.innerHTML;
+        }
+    };
+
+    //----------- Calculate
+    let buttonMore = document.getElementById("button-more");
+    let buttonLess = document.getElementById("button-less");
+    let buttonMultiply = document.getElementById("button-multiply");
+    let buttonDivision = document.getElementById("button-division");
+    let buttonPorcent = document.getElementById("button-porcent");
+
+    //Function when clicked on the math operation button
+    function clickButtonOp(ButtonOP){
+        screendg.style.opacity = '100%';
+
+        let checkScreenTop = screenStores.innerHTML;
+        let checkScreenBotton = screendg.innerHTML;
+
+        if(screenStores.innerHTML == 'warehouse'){
+            screenStores.innerHTML = screendg.innerHTML;
+            screendg.innerHTML = ButtonOP.innerHTML;
+        }
+        else if(screendg.innerHTML == '-' || screendg.innerHTML == '*' || screendg.innerHTML == '+'|| screendg.innerHTML == '/'){
+            screendg.innerHTML = ButtonOP.innerHTML;
+        }
+        else if (checkScreenBotton[0] == '*' || checkScreenBotton[0] == '/'){
+            screenStores.innerHTML+= screendg.innerHTML;
+            screendg.innerHTML = ButtonOP.innerHTML;
+        }
+        else if (eval(screenStores.innerHTML) == eval(screendg.innerHTML)){
+            console.log("click "+ButtonOP.innerHTML+": top screen == botton screen");
+
+            let checkScreenTop = screenStores.innerHTML;
+            let checkScreenBotton = screendg.innerHTML;
+
+            if (checkScreenBotton[0] == '+' || checkScreenBotton[0] == '-' || checkScreenBotton[0] == '*'){
+                screenStores.innerHTML += screendg.innerHTML;
+                screendg.innerHTML = ButtonOP.innerHTML;
+                console.log("click "+ButtonOP.innerHTML+": if length screen botoon != screen top");
+            }else{
+                screenStores.innerHTML = screendg.innerHTML;
+                screendg.innerHTML = ButtonOP.innerHTML;
+            }
+        }
+        else {
+            let noAdd = screenStores.innerHTML;
+            let noAdd2 = screendg.innerHTML;
+
+            if(screendg.innerHTML != '0' && /*noAdd[noAdd.length - 1]  != '+'*/ noAdd2.length > 1){
+                screenStores.innerHTML += screendg.innerHTML;
+                screendg.innerHTML = ButtonOP.innerHTML;
+            }
+            console.log("click +: last else");
+        }
+    };
+    // end function math operation
+
+    //Calc more (+)
+    buttonMore.onclick = function(){
+        let ButtonOP = buttonMore;
+        return clickButtonOp(ButtonOP);
+    };
+
+    //calc less (-)
+    buttonLess.onclick = function(){
+        let ButtonOP = buttonLess;
+        return clickButtonOp(ButtonOP);
+    };
+
+    //button multiply (*)
+    buttonMultiply.onclick = function(){
+        let ButtonOP = buttonMultiply;
+        return clickButtonOp(ButtonOP);
+    };
+
+    //button division (/)
+    buttonDivision.onclick = function(){
+        let ButtonOP = buttonDivision;
+        return clickButtonOp(ButtonOP);
+    }
+
+    //button porcent(%)
+    buttonPorcent.onclick = function(){
+        let checkScreenTop = screenStores.innerHTML;
+        let checkScreenBotton = screendg.innerHTML;
+
+        if (screenStores.innerHTML == 'warehouse'){
+            let resultePorcent = checkScreenBotton/100;
+
+            screenStores.innerHTML = screendg.innerHTML+"%";
+            screendg.innerHTML = resultePorcent;
+        } else{
+            if (screenStores.innerHTML != 'warehouse' && checkScreenBotton.length < 1){
+                let resultePorcent = checkScreenTop/100;
+                
+                screenStores.innerHTML = screenStores.innerHTML+"%";
+                screendg.innerHTML = resultePorcent;
+            }
+            else if(checkScreenBotton.length > 1){
+                if(checkScreenBotton[0] == "+"  || checkScreenBotton[0] == "-" ){
+                    screenStores.innerHTML += screendg.innerHTML;
+
+                    let expressao = screenStores.innerHTML;
+                    let resultado = calcular(expressao);
+                    let resultePorcent = resultado/100;
+
+                    screenStores.innerHTML = "("+screenStores.innerHTML+")%";
+                    screendg.innerHTML = resultePorcent;
+                }else{
+                    let expressao = screendg.innerHTML;
+                    let resultado = calcular(expressao);
+                    let resultePorcent = resultado/100;
+
+                    screenStores.innerHTML = "("+screendg.innerHTML+")%";
+                    screendg.innerHTML = resultePorcent;
+                }
+            }
+            else if(eval(screenStores.innerHTML) == eval(screenStores.innerHTML)){}
+        }
+    }
+
+    //------------------- resulte (=)
+    function calcular(expressao) {
+        try {
+            const resultado = eval(expressao);
+            return resultado;
+        } catch (error) {
+            return "Error";
+            console.log(error);
+        }
+    };
+
+    let resulte = document.getElementById("button-resulte");
+
+    resulte.onclick = function(){
+        console.log(screendg.innerHTML);
+        if (screenStores.innerHTML == 'warehouse' && screendg.innerHTML == '0'){
+            screenStores.innerHTML = 'warehouse';
+            screendg.innerHTML = '0';
+            screendg.style.opacity = '50%';
+        } 
+        else if (screendg.innerHTML != '0' && screenStores.innerHTML == 'warehouse') {
+            screenStores.innerHTML = screendg.innerHTML;
+        }
+        else {
+            screenStores.innerHTML += screendg.innerHTML;
+
+            let expressao = screenStores.innerHTML;
+
+            if (expressao[expressao.length-1] == '+' || expressao[expressao.length-1] == '-'){ //se o último digito for um operador, o mesmo é retirado
+                screenStores.innerHTML = expressao.slice(0,-1); 
+                let newExpressao = screenStores.innerHTML;
+                let resultado = calcular(newExpressao);
+                screendg.innerHTML = resultado;
+            } else{
+                let resultado = calcular(expressao);
+                screendg.innerHTML = resultado;
+            }
+        } 
+    }
+
+    //--------------------- delete
+    let deleteALL = document.getElementById("delete-all");
+    let deleteP = document.getElementById("delete-p");
+
+    deleteALL.onclick = function(){ //deletando tudo
+        screenStores.innerHTML = 'warehouse';
+        screendg.innerHTML = '0';
+        screendg.style.opacity = '50%';
+    };
+    deleteP.onclick = function(){ //deletado por dígito
+        //esse if valida se foi digitado algo para deletar
+
+        if (screenStores.innerHTML == 'warehouse'/* && screendg.innerHTML == '0'*/){
+            let currentText = screendg.innerHTML;
+            if(screendg.innerHTML != '0' && currentText.length > 1){
+                screendg.innerHTML = currentText.slice(0, -1);
+            }else{
+            screendg.innerHTML = '0';
+            screendg.style.opacity = '50%';
+            }
+        } 
+        //caso tenha sido digitado, cai no else abaixo
+        else {
+            let currentText = screendg.innerHTML;
+            let expressao = screenStores.innerHTML;
+            let resultado = eval(expressao);
+            let compscreen = calcular(currentText);
+            
+            if(compscreen == resultado){
+                screenStores.innerHTML = 'warehouse';
+                screendg.innerHTML = '0';
+                screendg.style.opacity = '50%';
+                console.log("(<-) entrou no if que deleta tudo");
+            }
+            else if(currentText.length > 1){ //vai deletando até chegar em 1 dígito
+                screendg.innerHTML = currentText.slice(0, -1);
+                console.log("entrou no else if que deleta um de cada vez");
+            }
+            else if (currentText.length == 1){ //quando chega em 1, é deletado caso este último digito não seja um operador math       
+                    if (currentText == '1' || currentText == '2' || currentText == '3' || currentText == '4' || currentText == '5' || currentText == '6' || currentText == '7' || currentText == '8' || currentText == '9'){
+                        screendg.innerHTML = currentText.slice(0, -1); 
+                        screendg.innerHTML = '0';
+                        screendg.style.opacity = '50%'; 
+                    }
+
+                    
+            }
+            else {
+                screendg.innerHTML = '0';
+                screendg.style.opacity = '50%'; 
+            }
+        }
+    }; 
+
+    </script>
+</body>
+</html>
