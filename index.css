@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap');
+
+/* ----------- Geral */
+
+.material-symbols-outlined {
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Ubuntu Sans", sans-serif;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: linear-gradient(to left, #3671C3, #36C38E);
+}
+h1 {
+    color: #fff;
+    margin-top: -20px;
+    margin-bottom: 20px;
+}
+
+/* ----------- Calculator*/
+.calculator {
+    height: 450px;
+    width: 330px;
+    background-color: transparent;
+    border-radius: 30px;
+    box-shadow: 0px 2px 25px rgb(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content:space-evenly;
+    align-items: center;
+}
+/*screen*/
+.screen-calculator {
+    width: 90%;
+    height: 75px;
+    background-image: linear-gradient(to left, #B7D8EE, #B7EEE3);
+    border-radius: 20px;
+    border: 1px solid rgb(49, 100, 171, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items:end;
+}
+
+.screen-digit {
+    font-size: 40px;
+    margin-right: 10px;
+    opacity: 50%;
+    max-width: 93%;
+    overflow-x: hidden;
+}
+.stores {
+    font-size: 15px;
+    margin-right: 10px;
+    opacity: 50%;
+    font-weight: bold;
+    max-width: 95%;
+    overflow-x: hidden;
+}
+
+/*buttons*/
+button {
+    border: none;
+    padding: 10px;
+    width: 60px;
+    height: 60px;
+    font-size: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+    color: #303030;
+}
+.item {
+    margin-left: 6px;
+    background-color: #B7D8EE;
+    transition: all 0.2s ease-in;
+}
+.item.action {
+    background-color: #F1C80A;
+    color: #303030;
+}
+.item:hover {
+    background-color: #9EB9CB;
+}
+.item.action:hover {
+    background-color: #D0AD0A;
+}
+.buttons-calculator button:nth-child(19){
+    grid-column: span 2;
+    width: 130px;
+    border-radius: 50px;
+    font-size: 30px;
+}
+.material-symbols-outlined {
+    font-size: 23px;
+    font-weight:bolder;
+}
+.buttons-calculator {   
+    width: 90%;
+    height: 325px;
+    background-color: transparent;
+    border-radius: 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
