@@ -151,16 +151,23 @@ function clickButtonOp(ButtonOP){
     else if(screendg.innerHTML == '-' || screendg.innerHTML == '*' || screendg.innerHTML == '+'|| screendg.innerHTML == '/'){
         screendg.innerHTML = ButtonOP.innerHTML;
 
+        console.log("Caiu aq 1");
+
     } else if(checkScreenBotton[0] == '*' || checkScreenBotton[0] == '/'){
         screenStores.innerHTML+= screendg.innerHTML;
         screendg.innerHTML = ButtonOP.innerHTML;
 
+        console.log("Caiu aq 2");
+
     } else if(eval(screenStores.innerHTML) == eval(screendg.innerHTML)){
+
+
+        console.log("Caiu aq 3");
 
         let checkScreenTop = screenStores.innerHTML;
         let checkScreenBotton = screendg.innerHTML;
 
-        if (checkScreenBotton[0] == '+' || checkScreenBotton[0] == '-' || checkScreenBotton[0] == '*'){
+        if (checkScreenBotton[0] == '+' || checkScreenBotton[0] == '-' || checkScreenBotton[0] == '*' || checkScreenBotton[0] == '/'){
             screenStores.innerHTML += screendg.innerHTML;
             screendg.innerHTML = ButtonOP.innerHTML;
 
@@ -337,20 +344,19 @@ resulte.onclick = function(){
 
         if(expressao.includes("/0")){ //operação por /0 não permitida
             screenStores.innerHTML = 'warehouse';
-            screendg.style.opacity = '50%';
-            screendg.innerHTML = '0';
+            screendg.innerHTML = 'Undefined';
         }
         else if(ResulteEqual != "="){ //gambiarra para verficar se foi já foi apertado o =
             if(expressao[expressao.length-1] == '+' || expressao[expressao.length-1] == '-'){ //se o último digito for um operador, o mesmo é retirado para o sucesso do cálculo.
                 screenStores.innerHTML = expressao.slice(0,-1); 
                 let newExpressao = screenStores.innerHTML;
-                screendg.innerHTML = resultado % 1 === 0 ? resultado :resultado.toFixed(2);
+                screendg.innerHTML = resultado;
                 let resultado = calcular(newExpressao);
                 checkResulte.innerHTML = "=";
             } else{
                 let resultado = calcular(expressao);
                 checkResulte.innerHTML = "=";
-                screendg.innerHTML = resultado % 1 === 0 ? resultado :resultado.toFixed(2); 
+                screendg.innerHTML = resultado; 
             }
         } else{
 
