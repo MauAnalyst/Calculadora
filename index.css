@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 /* ----------- Geral */
 
@@ -10,30 +11,96 @@
     'opsz' 24;
 }
 
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Ubuntu Sans", sans-serif;
+    font-family: "Roboto","Ubuntu Sans", sans-serif;
 }
-body {
+/*body {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
     background-image: linear-gradient(to left, #3671C3, #36C38E);
+} */
+
+.pag-calculator {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: linear-gradient(to left, #3671C3, #36C38E);
+    transition: all 0.3s ease-in-out;
 }
-h1 {
+
+/* --- toggle*/
+input[type="checkbox"]{
+    display: none;
+}
+.toggle{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 20px;
+    width: 300px;
+    padding: 5px;
+    transition: all 0.6s ease-in-out;
+}
+.toggle-click {
+    width: 75px;
+    height: 40px;
+    margin-top: -10px;
+    margin-bottom: 5px;
+    /*background-image: linear-gradient(to left, #07131E, #0E2539); */
+    background-color: #B7D8EE;
+    border-radius: 30px;
+    cursor: pointer;
+    /*display: flex;
+    align-items: center;
+    justify-content: start; */
+    transition: all 0.6s ease-in-out;
+}
+.toggle-circle {
+    width: 30px;
+    height: 30px;
+    background-image: linear-gradient(to left, #07131E, #0E2539);
+    border-radius: 50%;
+    margin: 5px;
+    transition: all 0.1s ease-in-out;
+    display: inline-block;
+}
+
+#Check:checked ~* .toggle-circle {
+    background-image: linear-gradient(to left, #3671C3, #36C38E);
+    margin: 5px 0px 20px 40px;
+}
+#Check:checked ~* .toggle-click {
+    /*background-image: linear-gradient(to left, #3671C3, #36C38E); */
+}
+
+#Check:checked ~ .calculator {
+    background-color: black;
+}
+#Check:checked ~* .item{
     color: #fff;
-    margin-top: -20px;
-    margin-bottom: 20px;
+    background-color: #273D51;
 }
+#Check:checked ~* .item.action{
+    color: #fff;
+    background-color: #F41908;
+}
+
+#Check:checked ~ .pag-calculator{
+    background-image: linear-gradient(to left, #07131E, #0E2539);
+}
+
 
 /* ----------- Calculator*/
 .calculator {
-    height: 450px;
+    height: 500px;
     width: 330px;
     background-color: transparent;
     border-radius: 30px;
@@ -46,25 +113,32 @@ h1 {
 /*screen*/
 .screen-calculator {
     width: 90%;
-    height: 75px;
-    background-image: linear-gradient(to left, #B7D8EE, #B7EEE3);
+    height: 90px;
+    background-color: #B7D8EE;
     border-radius: 20px;
-    border: 1px solid rgb(49, 100, 171, 0.5);
+    /*border: 1px solid rgb(49, 100, 171, 0.5);*/
     display: flex;
     flex-direction: column;
     justify-content: end;
     align-items:end;
 }
-
+h2 {
+    text-align: start;
+    width: 85%;
+    color: #fff;
+    font-size: 15px;
+    margin-bottom: -20px ;
+    margin-top: -10px;
+}
 .screen-digit {
-    font-size: 40px;
+    font-size: 53px;
     margin-right: 10px;
     opacity: 50%;
     max-width: 93%;
     overflow-x: hidden;
 }
 .stores {
-    font-size: 15px;
+    font-size: 17px;
     margin-right: 10px;
     opacity: 50%;
     font-weight: bold;
@@ -82,12 +156,13 @@ button {
     border-radius: 50%;
     cursor: pointer;
     font-weight: bold;
-    color: #303030;
+    transition: all 0.3s ease-in-out;
 }
 .item {
     margin-left: 6px;
     background-color: #B7D8EE;
     transition: all 0.2s ease-in;
+    color: #303030;
 }
 .item.action {
     background-color: #F1C80A;
