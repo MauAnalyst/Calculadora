@@ -17,6 +17,8 @@ let buttonPoint = document.getElementById("button-point");
 
 
 //-------- Function when clicked on the number button
+//console.log("checkResulte"+checkResulte.innerHTML);
+
 function clickNumber(buttonNumber){
     let currentText = screendg.innerHTML;
     let expressao = screenStores.innerHTML;
@@ -54,7 +56,6 @@ function clickNumber(buttonNumber){
 
 buttonZero.onclick = function(){ //0
     screendg.style.opacity = '100%';
-    checkResulte.innerHTML = "";
     if (screendg.innerHTML == '0' && screendg.innerHTML != '+'){
         screendg.innerHTML = buttonZero.innerHTML;
         
@@ -110,7 +111,6 @@ buttonNine.onclick = function() { //9
 
 buttonPoint.onclick = function(){ // point
     screendg.style.opacity = '100%';
-    checkResulte.innerHTML = "";
 
     if (screendg.innerHTML.includes(".")) {
         console.log("Ponto decimal já foi adicionado");
@@ -209,8 +209,8 @@ buttonDivision.onclick = function(){
 buttonPorcent.onclick = function(){
     let checkScreenTop = screenStores.innerHTML;
     let checkScreenBotton = screendg.innerHTML;
+    checkResulte.innerHTML = "";
     
-
     if (screenStores.innerHTML == 'warehouse'){
         let resultePorcent = checkScreenBotton/100;
 
