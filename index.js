@@ -152,7 +152,6 @@ function clickButtonOp(ButtonOP){
         screendg.innerHTML = ButtonOP.innerHTML;
 
     } else if(eval(screenStores.innerHTML) == eval(screendg.innerHTML)){
-        console.log("click "+ButtonOP.innerHTML+": top screen == botton screen");
 
         let checkScreenTop = screenStores.innerHTML;
         let checkScreenBotton = screendg.innerHTML;
@@ -169,14 +168,11 @@ function clickButtonOp(ButtonOP){
     else {
         //let noAdd = screenStores.innerHTML;
         //let noAdd2 = screendg.innerHTML;
-
         //if(screendg.innerHTML != '0' && noAdd2.length > 1){
             screenStores.innerHTML += screendg.innerHTML;
             screendg.innerHTML = ButtonOP.innerHTML;
         //} else{
-        console.log("caiu aq da ultima vez");
         //}
-        
     }
 };// end function math operation
 
@@ -241,16 +237,16 @@ buttonPorcent.onclick = function(){
 
             screenStores.innerHTML = checkScreenTop + "+" + firstPorcent+"";
             screendg.innerHTML = checkScreenTop + firstPorcent;
-
             return;
+
         } else if(screendg.innerHTML.includes("-")){
             let firstPorcent = checkScreenBotton.slice(1)/100;
             checkScreenTop = eval(checkScreenTop);
 
             screenStores.innerHTML = checkScreenTop + "-" + firstPorcent+"";
             screendg.innerHTML = checkScreenTop - firstPorcent;
-
             return;
+
         }
         if (screenStores.innerHTML != 'warehouse' && checkScreenBotton.length < 1){
             let resultePorcent = checkScreenTop/100;
@@ -300,20 +296,25 @@ function calcular(expressao) {
 };
 
 let resulte = document.getElementById("button-resulte"); 
-
-function exit(){
-    screenStores.innerHTML = 'warehouse';
-    screendg.innerHTML = '0';
-    screendg.style.opacity = '50%';
-    return;
-}
+let checkResulte = document.getElementById("check-resulte"); 
 
 resulte.onclick = function(){
     let checkScreenBotton = screendg.innerHTML;
     let currentText = screendg.innerHTML;
     let expressao = screenStores.innerHTML;
-    let resultado = eval(expressao);
-    let compscreen = calcular(currentText);
+    //let resultado = eval(expressao);
+
+    let partes = expressao.split(/[+\-*/]/);
+    let numberAfter = parseFloat(partes[partes.length - 1]);
+
+    let parteFinal = "";
+
+    for (var i = expressao.length - 1; i >= 0; i--) {
+        if (expressao[i] === "+" || expressao[i] === "-" || expressao[i] === "*" || expressao[i] === "/") {
+            parteFinal = expressao.substring(i);
+            break;
+        }
+    }
 
     if (screenStores.innerHTML == 'warehouse' && screendg.innerHTML == '0'){
         screenStores.innerHTML = 'warehouse';
@@ -321,26 +322,58 @@ resulte.onclick = function(){
         screendg.style.opacity = '50%';
     } 
     else if (screendg.innerHTML != '0' && screenStores.innerHTML == 'warehouse') {
-        screenStores.innerHTML = screendg.innerHTML;
+        //screenStores.innerHTML = screendg.innerHTML;
+        return; //nada acontece;
     }
     else {
         screenStores.innerHTML += screendg.innerHTML;
-
         let expressao = screenStores.innerHTML;
-        let checkScreenBotton =  screendg.innerHTML;
 
-        if (expressao[expressao.length-1] == '+' || expressao[expressao.length-1] == '-'){ //se o último digito for um operador, o mesmo é retirado
-            screenStores.innerHTML = expressao.slice(0,-1); 
-            let newExpressao = screenStores.innerHTML;
-            let resultado = calcular(newExpressao);
-            screendg.innerHTML = resultado;
+        let ResulteEqual = checkResulte.innerHTML;
 
+        if(expressao.includes("/0")){ //operação por /0 não permitida
+            screenStores.innerHTML = 'warehouse';
+            screendg.style.opacity = '50%';
+            screendg.innerHTML = '0';
+        }
+        else if(ResulteEqual != "="){ //gambiarra para verficar se foi já foi apertado o =
+            if(expressao[expressao.length-1] == '+' || expressao[expressao.length-1] == '-'){ //se o último digito for um operador, o mesmo é retirado para o sucesso do cálculo.
+                screenStores.innerHTML = expressao.slice(0,-1); 
+                let newExpressao = screenStores.innerHTML;
+                screendg.innerHTML = resultado % 1 === 0 ? resultado :resultado.toFixed(2);
+                let resultado = calcular(newExpressao);
+                checkResulte.innerHTML = "=";
+            } else{
+                let resultado = calcular(expressao);
+                checkResulte.innerHTML = "=";
+                screendg.innerHTML = resultado % 1 === 0 ? resultado :resultado.toFixed(2); 
+            }
         } else{
-            let resultado = calcular(expressao);
-            screendg.innerHTML = resultado; 
+
+            if(parteFinal.includes("+")){
+                screenStores.innerHTML = screendg.innerHTML +"+"+ numberAfter;
+                let expressao = screenStores.innerHTML;
+                screendg.innerHTML = calcular(expressao);
+
+                console.log(numberAfter);
+            } else if(parteFinal.includes("-")){
+                screenStores.innerHTML = screendg.innerHTML +"-"+ numberAfter; 
+                let expressao = screenStores.innerHTML;
+                screendg.innerHTML = calcular(expressao);
+            } else if(parteFinal.includes("*")){
+                screenStores.innerHTML = screendg.innerHTML +"*"+ numberAfter; 
+                let expressao = screenStores.innerHTML;
+                screendg.innerHTML = calcular(expressao);
+            } else if(parteFinal.includes("/")){
+                screenStores.innerHTML = screendg.innerHTML +"/"+ numberAfter; 
+                let expressao = screenStores.innerHTML;
+                screendg.innerHTML = calcular(expressao);
+            } else{
+                return;
+            }
         }
     } 
-}; // ---- end resulte (=)
+}; // ---- end resulte (=)  
 
 //--------------------- delete
 let deleteALL = document.getElementById("delete-all");
@@ -350,8 +383,10 @@ deleteALL.onclick = function(){ //deletando tudo
     screenStores.innerHTML = 'warehouse';
     screendg.innerHTML = '0';
     screendg.style.opacity = '50%';
+    checkResulte.innerHTML = "";
 };
 deleteP.onclick = function(){ //deletado por dígito (caso não seja uma resposta)
+    checkResulte.innerHTML = "";
     //esse if valida se foi digitado apenas no botton screen (screendg.innerHTML) algo para deletar
     if (screenStores.innerHTML == 'warehouse'){
         let currentText = screendg.innerHTML;
@@ -391,7 +426,7 @@ deleteP.onclick = function(){ //deletado por dígito (caso não seja uma respost
             }
         }else if(currentText.length > 1){ //vai deletando até chegar em 1 dígito
             screendg.innerHTML = currentText.slice(0, -1);
-            console.log("entrou no else if que deleta um de cada vez");
+
         }else if (currentText.length == 1){ //quando chega em 1, é deletado caso este último digito não seja um operador math       
                 if (currentText == '1' || currentText == '2' || currentText == '3' || currentText == '4' || currentText == '5' || currentText == '6' || currentText == '7' || currentText == '8' || currentText == '9'){
                     screendg.innerHTML = currentText.slice(0, -1); 
