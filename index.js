@@ -143,7 +143,7 @@ function clickButtonOp(ButtonOP){
     if(checkScreenTop == 'warehouse'){
         screenStores.innerHTML = screendg.innerHTML;
         screendg.innerHTML = ButtonOP.innerHTML;
-
+        
     } else if(checkScreenTop[checkScreenTop.length - 1] == '%'){
         screenStores.innerHTML = screendg.innerHTML;
         screendg.innerHTML = ButtonOP.innerHTML;
@@ -151,19 +151,10 @@ function clickButtonOp(ButtonOP){
     else if(screendg.innerHTML == '-' || screendg.innerHTML == '*' || screendg.innerHTML == '+'|| screendg.innerHTML == '/'){
         screendg.innerHTML = ButtonOP.innerHTML;
 
-        console.log("Caiu aq 1");
-
     } else if(checkScreenBotton[0] == '*' || checkScreenBotton[0] == '/'){
         screenStores.innerHTML+= screendg.innerHTML;
         screendg.innerHTML = ButtonOP.innerHTML;
-
-        console.log("Caiu aq 2");
-
     } else if(eval(screenStores.innerHTML) == eval(screendg.innerHTML)){
-
-
-        console.log("Caiu aq 3");
-
         let checkScreenTop = screenStores.innerHTML;
         let checkScreenBotton = screendg.innerHTML;
 
@@ -318,8 +309,6 @@ resulte.onclick = function(){
     let partes = expressao.split(/[+\-*/]/);
     let numberAfter = parseFloat(partes[partes.length - 1]);
 
-    let parteFinal = "";
-
     for (var i = expressao.length - 1; i >= 0; i--) {
         if (expressao[i] === "+" || expressao[i] === "-" || expressao[i] === "*" || expressao[i] === "/") {
             parteFinal = expressao.substring(i);
@@ -339,7 +328,6 @@ resulte.onclick = function(){
     else {
         screenStores.innerHTML += screendg.innerHTML;
         let expressao = screenStores.innerHTML;
-
         let ResulteEqual = checkResulte.innerHTML;
 
         if(expressao.includes("/0")){ //operação por /0 não permitida
@@ -347,16 +335,21 @@ resulte.onclick = function(){
             screendg.innerHTML = 'Undefined';
         }
         else if(ResulteEqual != "="){ //gambiarra para verficar se foi já foi apertado o =
-            if(expressao[expressao.length-1] == '+' || expressao[expressao.length-1] == '-'){ //se o último digito for um operador, o mesmo é retirado para o sucesso do cálculo.
+            console.log("Caiu aq");
+            if(expressao[expressao.length-1] == '+' || expressao[expressao.length-1] == '-' || expressao[expressao.length-1] == '*' || expressao[expressao.length-1] == '/'){ //se o último digito for um operador, o mesmo é retirado para o sucesso do cálculo.
                 screenStores.innerHTML = expressao.slice(0,-1); 
                 let newExpressao = screenStores.innerHTML;
-                screendg.innerHTML = resultado;
                 let resultado = calcular(newExpressao);
+                screendg.innerHTML = resultado;
                 checkResulte.innerHTML = "=";
-            } else{
+                console.log("Caiu aq 2");
+
+            }else{
                 let resultado = calcular(expressao);
                 checkResulte.innerHTML = "=";
                 screendg.innerHTML = resultado; 
+
+                console.log("Caiu aq 3");
             }
         } else{
 
